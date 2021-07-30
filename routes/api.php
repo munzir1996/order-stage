@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Client\Auth\ClientAuthController;
+use App\Http\Controllers\API\Client\ResturantController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,7 +29,7 @@ Route::prefix('/client')->group(function () {
 Route::prefix('/client')->middleware(['auth:sanctum', 'type.client'])->group(function () {
     Route::put('profile', [ClientAuthController::class, 'updateProfile'])->name('client.profile.update');
     Route::post('logout', [ClientAuthController::class, 'logout'])->name('client.logout');
-    // Route::apiResource('meals', MealController::class);
+    Route::apiResource('resturants', ResturantController::class);
 });
 
 

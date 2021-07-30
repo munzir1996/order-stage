@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Client;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Client\ResturantCollection;
 use App\Models\Resturant;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,9 @@ class ResturantController extends Controller
      */
     public function index()
     {
-        //
+        $resturants = Resturant::all();
+
+        return new ResturantCollection($resturants);
     }
 
     /**

@@ -16,8 +16,8 @@ class Resturant extends Model
         'accepted_payment_methods' => 'array',
         'services' => 'array',
     ];
-    public const YES = 'yes';
-    public const NO = 'no';
+    public const YES = 'نعم';
+    public const NO = 'لا';
 
     /**
      * Get the client that owns the Resturant

@@ -24,6 +24,7 @@ class ResturantFactory extends Factory
     {
         return [
             'client_id' => Client::factory()->verified()->create()->id,
+            'type' => config('constants.restaurant_types.0'),
             'name_ar' => $this->faker->name(),
             'name_en' => $this->faker->name(),
             'branches_no' => $this->faker->numberBetween($min = 1000, $max = 9000),

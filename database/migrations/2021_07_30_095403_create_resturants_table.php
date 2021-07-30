@@ -16,6 +16,7 @@ class CreateResturantsTable extends Migration
         Schema::create('resturants', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_id');
+            $table->string('type');
             $table->string('name_ar');
             $table->string('name_en');
             $table->unsignedInteger('branches_no');

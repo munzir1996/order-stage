@@ -78,4 +78,16 @@ class ClientAuthTest extends TestCase
         ]);
     }
 
+    /** @test */
+    public function client_can_logout_and_delete_his_token()
+    {
+        $client = $this->clientApiLogin();
+
+        $client->createToken('mobile-client');
+
+        $response = $this->post('/api/client/logout');
+
+        $response->assertOk();
+        $this->assertCount(0, $client->tokens);
+    }
 }

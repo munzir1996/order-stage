@@ -49,4 +49,16 @@ class Client extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Get all of the resturants for the Client
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function resturants()
+    {
+        return $this->hasMany(Resturant::class);
+    }
 }
+
+

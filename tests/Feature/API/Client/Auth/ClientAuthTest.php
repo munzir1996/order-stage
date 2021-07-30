@@ -91,3 +91,4 @@ class ClientAuthTest extends TestCase
         $this->assertCount(0, $client->tokens);
     }
 }
+

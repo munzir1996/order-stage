@@ -8,6 +8,7 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
 
 class ClientAuthController extends Controller
 {
@@ -52,15 +53,12 @@ class ClientAuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'identity' => 'required',
-            'password' => 'required',
+            'phone' => 'required',
         ]);
 
-        $field = filter_var($request->identity, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+        $client = Client::where('phone', $request->phone)->first();
 
-        $client = Client::where("{$field}", $request->identity)->first();
-
-        if (!$client || !Hash::check($request->password, $client->password)) {
+        if (!$client) {
             throw ValidationException::withMessages([
                 'identity' => ['بيانات الاعتماد المقدمة غير صحيحة.'],
             ]);

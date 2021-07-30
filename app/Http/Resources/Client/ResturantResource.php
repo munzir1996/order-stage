@@ -26,13 +26,13 @@ class ResturantResource extends JsonResource
             'tax_registration_no' => $this->tax_registration_no,
             'services' => $this->services,
             'category' => $this->category,
-            'resturant_subcategories' => $this->resturant_subcategories,
             'accepted_payment_methods' => $this->accepted_payment_methods,
             'loyalty_points' => $this->loyalty_points,
             // 'point' => $this->when(isset($this->point), $this->point),
 
+            'resturant_subcategories' => $this->whenLoaded('resturantSubcategories'),
             'loyality_point' => $this->whenLoaded('loyalityPoint'),
-            'bank' => $this->whenLoaded('banks'),
+            'bank' => $this->whenLoaded('bank'),
             'work_time' => $this->whenLoaded('workTime'),
             'location' => $this->whenLoaded('location'),
         ];

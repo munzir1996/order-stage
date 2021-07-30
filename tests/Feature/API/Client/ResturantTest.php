@@ -45,9 +45,10 @@ class ResturantTest extends TestCase
             'resturant_subcategories' => $resturantSubcategories,
             'accepted_payment_methods' => config('constants.payment_methods'),
             'loyalty_points' => Resturant::YES,
-            'point' => 1,
+            'points' => 1,
             'amount' => 1,
         ]);
+
         $response->assertCreated();
 
         $this->assertDatabaseHas('resturants', [
@@ -60,20 +61,26 @@ class ResturantTest extends TestCase
             'email' => 'manager@manager.com',
             'commercial_registration_no' => '4568754',
             'tax_registration_no' => '455552135',
-            'bank_name' => 'bok',
+            'loyalty_points' => Resturant::YES,
+            'category' => 'category',
+        ]);
+        $this->assertDatabaseHas('banks', [
+            'name' => 'bok',
             'iban' => '445445',
-            'services' => config('constants.restaurant_services'),
+        ]);
+        $this->assertDatabaseHas('work_times', [
             'first_period_start' => '8',
             'first_period_end' => '12',
             'second_period_start' => '12',
             'second_period_end' => '8',
+        ]);
+        $this->assertDatabaseHas('locations', [
             'longitude' => '111.2',
             'latitude' => '222.1',
             'description' => 'address description',
-            'category' => 'category',
-            'accepted_payment_methods' => config('constants.payment_methods'),
-            'loyalty_points' => Resturant::YES,
-            'point' => 1,
+        ]);
+        $this->assertDatabaseHas('loyality_points', [
+            'points' => 1,
             'amount' => 1,
         ]);
     }

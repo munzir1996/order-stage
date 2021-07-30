@@ -61,7 +61,7 @@ class ResturantStoreRequest extends FormRequest
             'resturant_subcategories' => 'required',
             'accepted_payment_methods' => 'required',
             'loyalty_points' => 'required',
-            'point' => 'required_if:loyalty_points,'.Resturant::YES,
+            'points' => 'required_if:loyalty_points,'.Resturant::YES,
             'amount' => 'required_if:loyalty_points,'.Resturant::YES,
         ];
     }

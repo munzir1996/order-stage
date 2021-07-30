@@ -11,7 +11,7 @@ class Resturant extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    protected $with = ['client', 'banks', 'workTime', 'location', 'loyalityPoint', 'resturantSubcategories'];
+    protected $with = ['client', 'bank', 'workTime', 'location', 'loyalityPoint', 'resturantSubcategories'];
     protected $casts = [
         'accepted_payment_methods' => 'array',
         'services' => 'array',
@@ -30,13 +30,13 @@ class Resturant extends Model
     }
 
     /**
-     * Get all of the banks for the Resturant
+     * Get the bank associated with the Resturant
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function banks()
+    public function bank()
     {
-        return $this->hasMany(Bank::class);
+        return $this->hasOne(Bank::class);
     }
 
     /**

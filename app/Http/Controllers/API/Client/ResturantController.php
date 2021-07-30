@@ -5,8 +5,13 @@ namespace App\Http\Controllers\API\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Client\ResturantStoreRequest;
 use App\Http\Resources\Client\ResturantCollection;
+use App\Models\Bank;
 use App\Models\Resturant;
+use App\Models\ResturantSubcategory;
+use App\Models\WorkTime;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class ResturantController extends Controller
 {
@@ -31,8 +36,10 @@ class ResturantController extends Controller
     public function store(ResturantStoreRequest $request)
     {
         $request->validated();
-        dd($request->all());
-        Resturant::create([
+        $resturantSubcategories = collect($request->resturant_subcategories);
+
+        $resturant = Resturant::create([
+            'client_id' => Auth::user()->id,
             'type' => $request->type,
             'name_ar' => $request->name_ar,
             'name_en' => $request->name_en,
@@ -41,25 +48,39 @@ class ResturantController extends Controller
             'manager_phone' => $request->manager_phone,
             'email' => $request->email,
             'commercial_registration_no' => $request->commercial_registration_no,
-            'tax_registration_no' => '455552135',
-            'services' => config('constants.restaurant_services'),
-            'category' => 'category',
-            'resturant_subcategories' => $resturantSubcategories,
-            'accepted_payment_methods' => config('constants.payment_methods'),
-            'loyalty_points' => Resturant::YES,
-            'point' => 1,
-            'amount' => 1,
+            'tax_registration_no' => $request->tax_registration_no,
+            'services' => $request->services,
+            'category' => $request->category,
+            'accepted_payment_methods' => $request->accepted_payment_methods,
+            'loyalty_points' => $request->loyalty_points,
+        ]);
+        $resturantSubcategories->each(function($resturantCategory, $key) use($resturant) {
+            ResturantSubcategory::create([
+                'name' => $resturantCategory,
+                'resturant_id' => $resturant->id,
+            ]);
+        });
+        $resturant->bank()->create([
+            'name' => $request->bank_name,
+            'iban' => $request->iban,
+        ]);
+        $resturant->workTime()->create([
+            'first_period_start' => $request->first_period_start,
+            'first_period_end' => $request->first_period_end,
+            'second_period_start' => $request->second_period_start,
+            'second_period_end' => $request->second_period_end,
+        ]);
+        $resturant->location()->create([
+            'longitude' => $request->longitude,
+            'latitude' => $request->latitude,
+            'description' => $request->description,
+        ]);
+        $resturant->loyalityPoint()->create([
+            'points' => $request->points,
+            'amount' => $request->amount,
+        ]);
 
-            'bank_name' => 'bok',
-            'iban' => '445445',
-            'first_period_start' => '8',
-            'first_period_end' => '12',
-            'second_period_start' => '12',
-            'second_period_end' => '8',
-            'longitude' => '111.2',
-            'latitude' => '222.1',
-            'description' => 'address description',
-        ])
+        return response()->json('Resturant Created', Response::HTTP_CREATED);
     }
 
     /**

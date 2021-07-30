@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Resturant;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -29,6 +30,7 @@ class CreateResturantsTable extends Migration
             $table->string('category');
             $table->json('accepted_payment_methods');
             $table->json('services');
+            $table->string('activated')->default(Resturant::NO);
             $table->softDeletes();
             $table->timestamps();
 

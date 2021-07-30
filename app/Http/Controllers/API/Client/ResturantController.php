@@ -54,6 +54,11 @@ class ResturantController extends Controller
             'accepted_payment_methods' => $request->accepted_payment_methods,
             'loyalty_points' => $request->loyalty_points,
         ]);
+
+        $resturant->addMediaFromBase64($request->authorization_image)->preservingOriginal()->toMediaCollection('authorization');
+        $resturant->addMediaFromBase64($request->commercial_register_image)->preservingOriginal()->toMediaCollection('commercial_register');
+        $resturant->addMediaFromBase64($request->resturant_image)->preservingOriginal()->toMediaCollection('resturant');
+
         $resturantSubcategories->each(function($resturantCategory, $key) use($resturant) {
             ResturantSubcategory::create([
                 'name' => $resturantCategory,

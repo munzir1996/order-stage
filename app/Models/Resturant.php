@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Resturant extends Model
+class Resturant extends Model implements HasMedia
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, InteractsWithMedia;
 
     protected $guarded = [];
     protected $with = ['client', 'bank', 'workTime', 'location', 'loyalityPoint', 'resturantSubcategories'];
@@ -18,6 +20,13 @@ class Resturant extends Model
     ];
     public const YES = 'نعم';
     public const NO = 'لا';
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('authorization')->singleFile();
+        $this->addMediaCollection('commercial_register')->singleFile();
+        $this->addMediaCollection('resturant')->singleFile();
+    }
 
     /**
      * Get the client that owns the Resturant

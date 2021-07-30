@@ -18,6 +18,9 @@ class ResturantTest extends TestCase
             0 => 'sub1',
             1 => 'sub2',
         ];
+        $authorizationImage = base64_encode(\Illuminate\Http\Testing\File::image('authorization_image.jpg'));
+        $commercialRegisterImage = base64_encode(\Illuminate\Http\Testing\File::image('commercial_register_image.jpg'));
+        $resturantImage = base64_encode(\Illuminate\Http\Testing\File::image('resturant_image.jpg'));
 
         $this->clientApiLogin();
 
@@ -47,6 +50,9 @@ class ResturantTest extends TestCase
             'loyalty_points' => Resturant::YES,
             'points' => 1,
             'amount' => 1,
+            'authorization_image' => $authorizationImage,
+            'commercial_register_image' => $commercialRegisterImage,
+            'resturant_image' => $resturantImage,
         ]);
 
         $response->assertCreated();

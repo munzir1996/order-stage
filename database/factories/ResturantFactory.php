@@ -37,6 +37,7 @@ class ResturantFactory extends Factory
             'category' => $this->faker->name(),
             'accepted_payment_methods' => $this->faker->name(),
             'services' => $this->faker->name(),
+            'activated' => Resturant::YES,
         ];
     }
 }

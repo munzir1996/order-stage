@@ -2,16 +2,19 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Authenticatable
+class Client extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens, SoftDeletes;
+
+    public const YES = 'yes';
+    public const NO = 'no';
 
     /**
      * The attributes that are mass assignable.
@@ -20,8 +23,12 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
-        'password',
+        'phone',
+        'country',
+        'role',
+        'identity_no',
+        'verified',
+        'verification_code'
     ];
 
     /**

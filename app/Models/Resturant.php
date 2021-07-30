@@ -11,7 +11,7 @@ class Resturant extends Model
     use HasFactory, SoftDeletes;
 
     protected $guarded = [];
-    protected $with = ['client', 'bank'];
+    protected $with = ['client', 'banks', 'workTime', 'location', 'loyalityPoint', 'resturantSubcategories'];
     protected $casts = [
         'accepted_payment_methods' => 'array',
         'services' => 'array',
@@ -30,13 +30,53 @@ class Resturant extends Model
     }
 
     /**
-     * Get the bank associated with the Resturant
+     * Get all of the banks for the Resturant
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function banks()
+    {
+        return $this->hasMany(Bank::class);
+    }
+
+    /**
+     * Get the workTime associated with the Resturant
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function bank()
+    public function workTime()
     {
-        return $this->hasOne(Bank::class);
+        return $this->hasOne(WorkTime::class);
+    }
+
+    /**
+     * Get the location associated with the Resturant
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function location()
+    {
+        return $this->hasOne(Location::class);
+    }
+
+    /**
+     * Get the loyalityPoint associated with the Resturant
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function loyalityPoint()
+    {
+        return $this->hasOne(LoyalityPoint::class);
+    }
+
+    /**
+     * Get all of the resturantSubcategories for the Resturant
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function resturantSubcategories()
+    {
+        return $this->hasMany(ResturantSubcategory::class);
     }
 }
 

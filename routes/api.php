@@ -24,3 +24,11 @@ Route::prefix('/client')->group(function () {
     Route::post('login', [ClientAuthController::class, 'login'])->name('client.login');
     // Route::apiResource('countries', CountryController::class);
 });
+
+Route::prefix('/client')->middleware(['auth:sanctum', 'type.client'])->group(function () {
+    Route::put('profile', [ClientAuthController::class, 'updateProfile'])->name('client.profile.update');
+    Route::post('logout', [ClientAuthController::class, 'logout'])->name('client.logout');
+    // Route::apiResource('meals', MealController::class);
+});
+
+

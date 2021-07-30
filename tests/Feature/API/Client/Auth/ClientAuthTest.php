@@ -37,7 +37,7 @@ class ClientAuthTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $client = Client::factory()->create([
+        $client = Client::factory()->verified()->create([
             'phone' => '0114949901',
         ]);
 
@@ -47,6 +47,35 @@ class ClientAuthTest extends TestCase
             'phone' => '0114949901',
         ]);
         $response->assertOk();
-
     }
+
+    /** @test */
+    public function client_can_update_profile()
+    {
+        $client = Client::factory()->verified()->create([
+            'name' => 'test',
+            'phone' => '0123456789',
+        ]);
+
+        $this->clientApiLogin($client);
+
+        $response = $this->put('api/client/profile', [
+            'id' => $client->id,
+            'name' => 'jane doe',
+            'phone' => '0123456789',
+            'country' => 'sudan',
+            'role' => config('constants.roles.1'),
+            'identity_no' => '114240491',
+        ]);
+        $response->assertOk();
+
+        $this->assertDatabaseHas('clients', [
+            'name' => 'jane doe',
+            'phone' => '0123456789',
+            'country' => 'sudan',
+            'role' => config('constants.roles.1'),
+            'identity_no' => '114240491',
+        ]);
+    }
+
 }

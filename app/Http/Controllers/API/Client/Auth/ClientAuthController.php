@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Client\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\API\Client\Auth\ClientAuthRegisterRequest;
+use App\Http\Requests\API\Client\Auth\ClientProfileRequest;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -35,19 +36,15 @@ class ClientAuthController extends Controller
     {
         $data = $request->validated();
 
-        if ($request->filled('password')) {
-            $data['password'] = Hash::make($data['password']);
-        }
-
         auth()->user()->update([
             'name' => $data['name'],
             'phone' => $data['phone'],
             'country' => $data['country'],
-            'job' => config('constants.roles.'. $data['job']),
+            'role' => $data['role'],
             'identity_no' => $data['identity_no'],
         ]);
 
-        return response()->json(auth()->user()->only(['id', 'name', 'phone', 'country', 'job', 'identity_no']), Response::HTTP_OK);
+        return response()->json(auth()->user()->only(['id', 'name', 'phone', 'country', 'role', 'identity_no']), Response::HTTP_OK);
     }
 
     public function login(Request $request)
